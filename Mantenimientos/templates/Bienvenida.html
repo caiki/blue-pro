@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block titulo %}
+  .::Configuracion Grifo
+{% endblock titulo %}
+{% block content1 %}
+    <div class="container">
+      
+          <center>
+            <br> <br>
+          <h1>Bem-Vindo à nova ferramenta Blue.Ai</h1>
+            <form id="search1">
+              <h4>Digite o CPF do paciente abaixo:</h4>
+              <br>
+              <input type="search" placeholder="Busca inteligente" name="busca" id="passwd1">
+            </form>
+            <h4>Toma medicamento para hipertensão?</h4>
+            <br>
+            <form id="search1">
+              <label class="radio-inline">
+                <input type="radio" name="medicado" value="sim"> Sim <br>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="medicado" value="não"> Não <br>
+              </label>
+            </form>
+            <h4>Qual é o seu peso? (Kg)</h4>
+            <br>
+            <form id="search1">
+              <input type="search" placeholder="Busca inteligente" name="busca" id="passwd1">
+            </form>
+            <h4>Qual é a sua estatura? (cm)</h4>
+            <br>
+            <form id="search1">
+              <input type="search" placeholder="Busca inteligente" name="busca" id="passwd1">
+            </form>
+            <h4>Quantas frutas por dia você consome?</h4>
+            <br>
+            <form id="search1">
+              <input type="search" placeholder="Busca inteligente" name="busca" id="passwd1">
+            </form>
+            <h4>Quantas horas por semana faz atividade física?</h4>
+            <br>
+            <form id="search1">
+              <input type="search" placeholder="Busca inteligente" name="busca" id="passwd1">
+            </form>
+          </center>
+      <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+      <div class="row" style="padding: 0px 0px 15px 15px;">
+          <h2 style="font-weight:400;">Análise de Risco</h2>
+          <div class="col-md-3 card" id="hide1" style="padding: 10px; border-radius: 5px; border: 2px solid rgb(221, 221, 221); display: none;">
+            <center>
+              <img src="./images/loading.gif" width="150">
+            </center>
+          </div>
+          <div class="col-md-3 card" id="show1" style="padding: 10px; border-radius: 5px; border: 2px solid green;">
+            <center>
+                <!--<h1><b>9.9%</b></h1>-->
+                <h1><b>-- %</b></h1>
+                <img src="./images/pulse.gif" width="60">
+                <br><b>Doenças Cardiovasculares</b><br><i>chance próximos 10 anos</i><br>
+            </center>
+          </div>
+          <div class="col-md-3 col-md-offset-1 card" id="hide2" style="padding: 10px; border-radius: 5px; border: 2px solid rgb(221, 221, 221); display: none;">
+            <center>
+              <img src="./images/loading.gif" width="150">
+            </center>
+          </div>
+          <div class="col-md-3 col-md-offset-1 card" id="show2" style="padding: 10px; border-radius: 5px; border: 2px solid red;">
+            <center>
+              <h1><b>10.89%</b></h1>
+              <img src="./images/pulse.gif" width="60">
+              <br><b>Diabetes Tipo 2</b><br><i>chance próximos 5 anos</i><br>
+            </center>
+          </div>
+          <div class="col-md-3 col-md-offset-1 card" id="hide3" style="padding: 10px; border-radius: 5px; border: 2px solid rgb(221, 221, 221); display: none;">
+            <center>
+              <img src="./images/loading.gif" width="150">
+            </center>
+          </div>
+          <div class="col-md-3 col-md-offset-1 card" id="show3" style="padding: 10px; border-radius: 5px; border: 2px solid grey; background: rgb(238, 238, 238);">
+            <center>
+              <h1 style="font-weight:normal; color:#888;">+ MÓDULOS <img src="./images/arrow-down.png" width="15" style="opacity:0.6"></h1>
+
+              <br><b style="color:#999">...</b><br><i style="color:#999">chance próximos ... anos</i><br>
+            </center>
+          </div>
+        </div>
+
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+      <form action="/Cambiar_Estacion/" method="POST" data-toggle="validator" role="form"> {% csrf_token %}
+        <div class="row"><br><br><br><br></div>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 col-sm-12" >
+              <div class="panel panel-primary">
+                <div class="panel-heading" align="center"> <button type="button" class="btn btn-primary btn-block" id="btnRefrescar">
+                    <span class="fa fa-refresh"></span> Idade Blue </button>
+                
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" id="grafico">
+                    <canvas id="myChart"></canvas>
+                  <div>  
+                  <div class="row" id="Result">
+                    <div class="col-md-12">
+                      {% ifnotequal resultado '' %}
+                      {% ifequal resultado 'exito' %}
+                      <div class="alert alert-success" role="alert" align="center">
+                        <h4>OPERACION EXITOSA</h4>
+                      </div>
+                      {% else %}
+                      <div class="alert alert-danger" role="alert" align="center">
+                        <h4>ERROR {{resultado}}</h4>
+                      </div>
+                      {% endifequal %}
+                      {% endifnotequal %}
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript">
+      //-------------------------------------CHART-------------------------------------------    
+var a = 2;
+
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+  // The type of chart we want to create
+  type: 'line',
+  // The data for our dataset
+  data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [{
+          label: "Idade Blue X Mes",
+          backgroundColor: 'rgb(10, 134, 161)',
+          borderColor: 'rgb(0, 255, 255)',
+          data: [0, 10, 5, 2, 20, 30, 15],
+      }]
+  },
+  // Configuration options go here
+  options: {} });        
+
+//-------------------------------------------------------------------------------------
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+    var beats = [];
+    var labels = [];
+
+ajax_graf_heart(chart);
+function ajax_graf_heart(chart){
+    $.ajax({
+      url:'/listado_heart/',
+      data:{},
+      type:'GET',
+      dataType:'json',
+      success: function(data){
+        Aux = data;
+        for(var i=0;i<data.length;i++){
+            labels.push(data[i].pk);
+            beats.push(data[i].Beat); 
+        }
+        //$('#listaC').html(html);
+        console.log(labels);
+        console.log(beats);
+        tam = chart.data.labels.length
+for (i = 0; i < tam; i++) {
+    console.log(i);
+    removeData(chart);
+}
+for (i = beats.length-1; i >= 0 ; i--) {
+    addData(chart,labels[i],beats[i]);
+}
+    //addData(chart,labels,beats);
+      }
+    });
+}
+
+    $("#btnRefrescar").click(function(){
+          beats = []
+          labels = []
+          ajax_graf_heart(chart);
+    });
+
+</script>
+{% endblock content1 %}
